@@ -10,6 +10,7 @@ export function initDatabase(): AppDatabase {
 
 import { createCardsRouter } from './modules/credit-cards/cards.routes';
 import { createCommitmentsRouter } from './modules/commitments/commitments.routes';
+import { createForecastRouter } from './modules/forecast/forecast.routes';
 
 export interface AppOptions {
   db?: AppDatabase;
@@ -73,6 +74,7 @@ export function createApp(options: AppOptions = {}): Hono {
 
   app.route('/api/cards', createCardsRouter(appDb));
   app.route('/api/commitments', createCommitmentsRouter(appDb));
+  app.route('/api/forecast', createForecastRouter(appDb));
 
   return app;
 }

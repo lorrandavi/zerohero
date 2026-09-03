@@ -3,6 +3,7 @@ import {
   calculateStatementPeriod,
   calculatePayoffSchedule,
   calculateMonthlyBurnRate,
+  calculatePayoffCurve,
 } from '../calculator.js';
 import type { Installment, Subscription } from '../commitment.js';
 
@@ -480,5 +481,176 @@ describe('calculateMonthlyBurnRate', () => {
     expect(resultJuly.subscriptionBurnInCents).toBe(0);
   });
 });
+
+describe('calculatePayoffCurve', () => {
+  const cardNubank = { id: 'card-1', closingDay: 25, dueDay: 2 };
+  const cardInter = { id: 'card-2', closingDay: 10, dueDay: 20 };
+
+  it('returns an empty timeline with 0 totals when no commitments exist', () => {
+    const forecast = calculatePayoffCurve([], [], {
+      startMonth: '2026-06',
+      months: 6,
+    });
+
+    expect(forecast.startMonth).toBe('2026-06');
+    expect(forecast.endMonth).toBe('2026-11');
+    expect(forecast.totalInitialDebtInCents).toBe(0);
+    expect(forecast.payoffDate).toBeNull();
+    expect(forecast.timeline).toHaveLength(6);
+
+    for (const point of forecast.timeline) {
+      expect(point.totalBurnInCents).toBe(0);
+      expect(point.subscriptionBurnInCents).toBe(0);
+      expect(point.installmentBurnInCents).toBe(0);
+      expect(point.remainingInstallmentBalanceInCents).toBe(0);
+      expect(point.activeInstallmentsCount).toBe(0);
+    }
+  });
+
+  it('projects constant subscription burn without changing installment debt', () => {
+    const sub: Subscription = {
+      type: 'subscription',
+      id: 'sub-netflix',
+      cardId: 'card-1',
+      name: 'Netflix',
+      amountInCents: 5590,
+      billingDay: 15,
+      frequency: 'monthly',
+      isActive: true,
+    };
+
+    const forecast = calculatePayoffCurve([sub], [cardNubank], {
+      startMonth: '2026-06',
+      months: 3,
+    });
+
+    expect(forecast.totalInitialDebtInCents).toBe(0);
+    expect(forecast.payoffDate).toBeNull();
+    expect(forecast.timeline).toHaveLength(3);
+    expect(forecast.timeline[0].month).toBe('2026-06');
+    expect(forecast.timeline[0].totalBurnInCents).toBe(5590);
+    expect(forecast.timeline[0].subscriptionBurnInCents).toBe(5590);
+    expect(forecast.timeline[0].installmentBurnInCents).toBe(0);
+    expect(forecast.timeline[0].remainingInstallmentBalanceInCents).toBe(0);
+    expect(forecast.timeline[0].activeInstallmentsCount).toBe(0);
+  });
+
+  it('projects installment debt reduction and cash flow recovery across months', () => {
+    // Card Nubank: closes on 25th, due on 2nd of following month.
+    // Purchase 2026-05-10: closes May 25, 1st installment due 2026-06-02.
+    // 3 installments of $100 (total 30000 cents):
+    // Payment 1: 2026-06-02 (10000 cents)
+    // Payment 2: 2026-07-02 (10000 cents)
+    // Payment 3: 2026-08-02 (10000 cents) -> payoff date!
+    const installment: Installment = {
+      type: 'installment',
+      id: 'inst-phone',
+      cardId: 'card-1',
+      name: 'Smartphone',
+      totalAmountInCents: 30000,
+      totalInstallments: 3,
+      paidInstallments: 0,
+      purchaseDate: '2026-05-10',
+      payoffDate: null,
+    };
+
+    const forecast = calculatePayoffCurve([installment], [cardNubank], {
+      startMonth: '2026-06',
+      months: 4,
+    });
+
+    expect(forecast.startMonth).toBe('2026-06');
+    expect(forecast.endMonth).toBe('2026-09');
+    expect(forecast.totalInitialDebtInCents).toBe(30000);
+    expect(forecast.payoffDate).toBe('2026-08-02');
+    expect(forecast.timeline).toHaveLength(4);
+
+    // Month 1: 2026-06
+    const m1 = forecast.timeline[0];
+    expect(m1.month).toBe('2026-06');
+    expect(m1.installmentBurnInCents).toBe(10000);
+    expect(m1.remainingInstallmentBalanceInCents).toBe(20000);
+    expect(m1.activeInstallmentsCount).toBe(1);
+
+    // Month 2: 2026-07
+    const m2 = forecast.timeline[1];
+    expect(m2.month).toBe('2026-07');
+    expect(m2.installmentBurnInCents).toBe(10000);
+    expect(m2.remainingInstallmentBalanceInCents).toBe(10000);
+    expect(m2.activeInstallmentsCount).toBe(1);
+
+    // Month 3: 2026-08 (Final installment month)
+    const m3 = forecast.timeline[2];
+    expect(m3.month).toBe('2026-08');
+    expect(m3.installmentBurnInCents).toBe(10000);
+    expect(m3.remainingInstallmentBalanceInCents).toBe(0);
+    expect(m3.activeInstallmentsCount).toBe(1);
+
+    // Month 4: 2026-09 (Post-payoff: cash flow recovered!)
+    const m4 = forecast.timeline[3];
+    expect(m4.month).toBe('2026-09');
+    expect(m4.installmentBurnInCents).toBe(0);
+    expect(m4.remainingInstallmentBalanceInCents).toBe(0);
+    expect(m4.activeInstallmentsCount).toBe(0);
+  });
+
+  it('aggregates multi-card and multi-commitment payoff schedules correctly', () => {
+    const sub: Subscription = {
+      type: 'subscription',
+      id: 'sub-spotify',
+      cardId: 'card-1',
+      name: 'Spotify',
+      amountInCents: 3490,
+      billingDay: 1,
+      frequency: 'monthly',
+      isActive: true,
+    };
+
+    const inst1: Installment = {
+      type: 'installment',
+      id: 'inst-nubank',
+      cardId: 'card-1',
+      name: 'Item 1',
+      totalAmountInCents: 20000,
+      totalInstallments: 2,
+      paidInstallments: 0,
+      purchaseDate: '2026-05-10', // Due 2026-06, 2026-07
+      payoffDate: null,
+    };
+
+    const inst2: Installment = {
+      type: 'installment',
+      id: 'inst-inter',
+      cardId: 'card-2',
+      name: 'Item 2',
+      totalAmountInCents: 40000,
+      totalInstallments: 4,
+      paidInstallments: 0,
+      purchaseDate: '2026-05-05', // Closes May 10, due 2026-05, 2026-06, 2026-07, 2026-08
+      payoffDate: null,
+    };
+
+    const forecast = calculatePayoffCurve(
+      [sub, inst1, inst2],
+      [cardNubank, cardInter],
+      { startMonth: '2026-06', months: 4 }
+    );
+
+    // In 2026-06:
+    // inst1 due: 10000
+    // inst2 due: 10000
+    // sub due: 3490
+    // totalBurn: 23490
+    expect(forecast.timeline[0].month).toBe('2026-06');
+    expect(forecast.timeline[0].installmentBurnInCents).toBe(20000);
+    expect(forecast.timeline[0].subscriptionBurnInCents).toBe(3490);
+    expect(forecast.timeline[0].totalBurnInCents).toBe(23490);
+    expect(forecast.timeline[0].activeInstallmentsCount).toBe(2);
+
+    // Latest payoff date is inst2's final payment (2026-08-20)
+    expect(forecast.payoffDate).toBe('2026-08-20');
+  });
+});
+
 
 

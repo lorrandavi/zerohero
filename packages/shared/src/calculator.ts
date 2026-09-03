@@ -37,6 +37,28 @@ export interface MonthlyBurnRate {
   items: MonthlyBurnRateItem[];
 }
 
+export interface PayoffCurvePoint {
+  month: string; // "YYYY-MM"
+  totalBurnInCents: number;
+  subscriptionBurnInCents: number;
+  installmentBurnInCents: number;
+  remainingInstallmentBalanceInCents: number;
+  activeInstallmentsCount: number;
+}
+
+export interface PayoffCurveForecast {
+  startMonth: string; // "YYYY-MM"
+  endMonth: string; // "YYYY-MM"
+  totalInitialDebtInCents: number;
+  payoffDate: string | null;
+  timeline: PayoffCurvePoint[];
+}
+
+export interface PayoffCurveOptions {
+  startMonth?: string; // "YYYY-MM"
+  months?: number; // default 12, min 1, max 60
+}
+
 export type CardLookup =
   | Record<string, CardBillingConfig>
   | Map<string, CardBillingConfig>
@@ -231,6 +253,139 @@ export function calculatePayoffSchedule(
     remainingAmountInCents,
     payoffDate,
     payments,
+  };
+}
+
+export function calculatePayoffCurve(
+  commitmentsOrItems:
+    | Array<{ commitment: Commitment; card: CardBillingConfig }>
+    | Commitment[],
+  cardsOrOptions?: CardLookup | PayoffCurveOptions,
+  optionsArg?: PayoffCurveOptions
+): PayoffCurveForecast {
+  let itemsToProcess: Array<{ commitment: Commitment; card: CardBillingConfig }>;
+  let options: PayoffCurveOptions | undefined;
+
+  if (cardsOrOptions && ('startMonth' in cardsOrOptions || 'months' in cardsOrOptions)) {
+    itemsToProcess = commitmentsOrItems as Array<{ commitment: Commitment; card: CardBillingConfig }>;
+    options = cardsOrOptions as PayoffCurveOptions;
+  } else if (!cardsOrOptions && !optionsArg) {
+    itemsToProcess = commitmentsOrItems as Array<{ commitment: Commitment; card: CardBillingConfig }>;
+    options = undefined;
+  } else {
+    const commitments = commitmentsOrItems as Commitment[];
+    const cards = cardsOrOptions as CardLookup;
+    options = optionsArg;
+
+    itemsToProcess = commitments.map((commitment) => {
+      let card: CardBillingConfig | undefined;
+      if (cards instanceof Map) {
+        card = cards.get(commitment.cardId);
+      } else if (Array.isArray(cards)) {
+        card = cards.find((c) => c.id === commitment.cardId);
+      } else {
+        card = cards[commitment.cardId];
+      }
+      if (!card) {
+        throw new Error(`Credit card configuration not found for cardId: ${commitment.cardId}`);
+      }
+      return { commitment, card };
+    });
+  }
+
+  const numMonths = Math.max(1, Math.min(60, options?.months ?? 12));
+
+  let startYear: number;
+  let startMonthNum: number;
+  if (options?.startMonth) {
+    [startYear, startMonthNum] = parseDate(`${options.startMonth}-01`);
+  } else {
+    const now = new Date();
+    startYear = now.getUTCFullYear();
+    startMonthNum = now.getUTCMonth() + 1;
+  }
+
+  const startMonthStr = `${startYear}-${pad2(startMonthNum)}`;
+  const [endYear, endMonthNum] = shiftMonth(startYear, startMonthNum, numMonths - 1);
+  const endMonthStr = `${endYear}-${pad2(endMonthNum)}`;
+
+  // Find all installments and precalculate their schedules
+  const installmentSchedules: Array<{
+    commitment: Installment;
+    schedule: PayoffSchedule;
+  }> = [];
+
+  for (const { commitment, card } of itemsToProcess) {
+    if (commitment.type === 'installment') {
+      const schedule = calculatePayoffSchedule(commitment, card);
+      installmentSchedules.push({
+        commitment,
+        schedule,
+      });
+    }
+  }
+
+  // Calculate total initial debt (unpaid payments on or after startMonth)
+  let totalInitialDebtInCents = 0;
+  let latestPayoffDate: string | null = null;
+
+  for (const { schedule } of installmentSchedules) {
+    for (const payment of schedule.payments) {
+      if (!payment.isPaid && payment.cycleId >= startMonthStr) {
+        totalInitialDebtInCents += payment.amountInCents;
+      }
+    }
+    if (schedule.payoffDate) {
+      if (!latestPayoffDate || schedule.payoffDate > latestPayoffDate) {
+        latestPayoffDate = schedule.payoffDate;
+      }
+    }
+  }
+
+  const timeline: PayoffCurvePoint[] = [];
+
+  for (let m = 0; m < numMonths; m++) {
+    const [y, mon] = shiftMonth(startYear, startMonthNum, m);
+    const monthStr = `${y}-${pad2(mon)}`;
+
+    // Monthly burn rate for this month
+    const burn = calculateMonthlyBurnRate(itemsToProcess, monthStr);
+
+    // Remaining installment balance after this month's payments are settled
+    let remainingDebtAfterMonth = 0;
+    let activeInstallmentsInMonth = 0;
+
+    for (const { schedule } of installmentSchedules) {
+      const hasPaymentInOrAfter = schedule.payments.some(
+        (p) => !p.isPaid && p.cycleId >= monthStr
+      );
+      if (hasPaymentInOrAfter) {
+        activeInstallmentsInMonth++;
+      }
+
+      for (const p of schedule.payments) {
+        if (!p.isPaid && p.cycleId > monthStr) {
+          remainingDebtAfterMonth += p.amountInCents;
+        }
+      }
+    }
+
+    timeline.push({
+      month: monthStr,
+      totalBurnInCents: burn.totalBurnInCents,
+      subscriptionBurnInCents: burn.subscriptionBurnInCents,
+      installmentBurnInCents: burn.installmentBurnInCents,
+      remainingInstallmentBalanceInCents: remainingDebtAfterMonth,
+      activeInstallmentsCount: activeInstallmentsInMonth,
+    });
+  }
+
+  return {
+    startMonth: startMonthStr,
+    endMonth: endMonthStr,
+    totalInitialDebtInCents,
+    payoffDate: installmentSchedules.length > 0 ? latestPayoffDate : null,
+    timeline,
   };
 }
 
