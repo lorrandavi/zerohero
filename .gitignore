@@ -1,0 +1,19 @@
+# Agent skills and configs
+.agents/
+skills-lock.json
+AGENTS.md
+docs/agents/
+
+# Build and dependencies
+node_modules/
+dist/
+build/
+.env
+.env.local
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+.scratch/
+.turbo/
+

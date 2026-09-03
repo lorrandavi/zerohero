@@ -1,0 +1,3 @@
+# Vertical Slice Architecture with Functional Core
+
+We decided to structure SubHub as an npm workspace monorepo (`apps/api`, `apps/web`, `packages/shared`) using Vertical Slice Architecture paired with a Functional Core, Imperative Shell. Complex financial calculations (credit card statement cutoffs, installment payoff curves, burn-rate forecasts) are isolated as pure, side-effect-free domain functions in the functional core for seamless TDD. Feature slices in the API (`modules/credit-cards`, `modules/commitments`, `modules/forecast`) handle I/O directly via Drizzle ORM and SQLite, avoiding the ceremony and boilerplate of traditional layered Clean Architecture while maintaining testability and high cohesion.
