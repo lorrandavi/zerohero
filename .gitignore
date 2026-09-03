@@ -16,4 +16,8 @@ Thumbs.db
 npm-debug.log*
 .scratch/
 .turbo/
-
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+data/

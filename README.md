@@ -144,6 +144,7 @@ The development of ZeroHero is tracked via **Wayfinder** on GitHub Issues:
 - [x] `#2` **Grilling**: Statement cutoff boundary & calendar rollover edge cases (ADR-0002)
 - [x] `#3` **Prototype**: Monorepo scaffolding & zero-friction shared contracts
 - [x] `#5` **Task**: Implement pure statement cutoff and payoff schedule math test-first (TDD)
-- [ ] `#6` **Task**: Implement SQLite database schema and migrations via Drizzle ORM in apps/api
+- [x] `#6` **Task**: Implement SQLite database schema and migrations via Drizzle ORM in apps/api
+- [ ] `#7` **Task**: Implement Hono API vertical slice endpoints and validation for credit cards and commitments
 - [ ] Visual dashboard & payoff curve projection charts
 
