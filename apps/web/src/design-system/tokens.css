@@ -1,0 +1,100 @@
+/**
+ * ZeroHero Design System - CSS Custom Properties
+ * 1-to-1 reflection of tokens.ts for vanilla CSS styling, layout utilities, and dark command center themes.
+ */
+
+:root {
+  /* Surfaces */
+  --zh-bg-primary: #090a0f;
+  --zh-bg-secondary: #0f111a;
+  --zh-surface-card: #12141d;
+  --zh-surface-card-hover: #161924;
+  --zh-surface-elevated: #1a1d29;
+
+  /* Borders */
+  --zh-border-subtle: #1e2235;
+  --zh-border-medium: #282e45;
+  --zh-border-distinct: #384160;
+
+  /* Text */
+  --zh-text-primary: #f8fafc;
+  --zh-text-secondary: #94a3b8;
+  --zh-text-muted: #64748b;
+  --zh-text-inverse: #090a0f;
+
+  /* Accents */
+  --zh-accent-emerald: #10b981;
+  --zh-accent-emerald-glow: rgba(16, 185, 129, 0.15);
+  --zh-accent-cyan: #06b6d4;
+  --zh-accent-cyan-glow: rgba(6, 182, 212, 0.15);
+  --zh-accent-indigo: #6366f1;
+  --zh-accent-indigo-hover: #4f46e5;
+  --zh-accent-amber: #f59e0b;
+  --zh-accent-rose: #f43f5e;
+  --zh-accent-rose-glow: rgba(244, 63, 94, 0.15);
+
+  /* Visualization */
+  --zh-chart-curve: #06b6d4;
+  --zh-chart-grid: #1e2235;
+  --zh-chart-milestone: #10b981;
+  --zh-chart-sub-bar: #6366f1;
+  --zh-chart-inst-bar: #f43f5e;
+
+  /* Radii */
+  --zh-radius-xs: 2px;
+  --zh-radius-sm: 4px;
+  --zh-radius-md: 8px;
+  --zh-radius-lg: 12px;
+  --zh-radius-xl: 16px;
+  --zh-radius-full: 9999px;
+
+  /* Spacing */
+  --zh-space-xs: 4px;
+  --zh-space-sm: 8px;
+  --zh-space-md: 16px;
+  --zh-space-lg: 24px;
+  --zh-space-xl: 32px;
+  --zh-space-2xl: 48px;
+
+  /* Typography */
+  --zh-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --zh-font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Shadows */
+  --zh-shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+  --zh-glow-cyan: 0 0 16px -2px rgba(6, 182, 212, 0.25);
+  --zh-glow-emerald: 0 0 16px -2px rgba(16, 185, 129, 0.25);
+}
+
+/* Global Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--zh-bg-primary);
+  color: var(--zh-text-primary);
+  font-family: var(--zh-font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* Tabular Numerals Utility */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* Glassmorphism Surface Utility */
+.glass-panel {
+  background: rgba(18, 20, 29, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--zh-border-subtle);
+  border-radius: var(--zh-radius-lg);
+  box-shadow: var(--zh-shadow-card);
+}
