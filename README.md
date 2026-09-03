@@ -107,8 +107,8 @@ zerohero/
 Clone the repository and install workspace dependencies:
 
 ```bash
-git clone https://github.com/lorrandavi/subhub.git
-cd subhub
+git clone https://github.com/lorrandavi/zerohero.git
+cd zerohero
 npm install
 ```
 
@@ -139,9 +139,11 @@ npm run dev --workspace=@zerohero/web
 ## 🗺️ Engineering Roadmap
 
 The development of ZeroHero is tracked via **Wayfinder** on GitHub Issues:
-- Active Map: [GitHub Issue #1: ZeroHero Core Map](https://github.com/lorrandavi/subhub/issues/1)
+- Active Map: [GitHub Issue #1: ZeroHero Core Map](https://github.com/lorrandavi/zerohero/issues/1)
 - [x] `#4` **Research**: Drizzle ORM + SQLite vertical slice integration
 - [x] `#2` **Grilling**: Statement cutoff boundary & calendar rollover edge cases (ADR-0002)
 - [x] `#3` **Prototype**: Monorepo scaffolding & zero-friction shared contracts
-- [ ] `#5` **Task**: Implement pure statement cutoff and payoff schedule math test-first (TDD)
+- [x] `#5` **Task**: Implement pure statement cutoff and payoff schedule math test-first (TDD)
+- [ ] `#6` **Task**: Implement SQLite database schema and migrations via Drizzle ORM in apps/api
 - [ ] Visual dashboard & payoff curve projection charts
+
