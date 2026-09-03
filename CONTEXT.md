@@ -1,4 +1,4 @@
-# SubHub
+# ZeroHero
 
 Personal financial command center for tracking subscriptions and credit card installments.
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-# 💳 SubHub
+# 💳 ZeroHero
 
 ### *Personal Financial Command Center & Payoff Curve Forecaster*
 
@@ -24,7 +24,7 @@ Track recurring subscriptions, model credit card statement cutoffs with calendar
 
 Most personal finance apps treat credit cards as simple debit accounts, failing to capture the nuance of **statement closing cutoffs**, **grace periods**, and **multi-month installment payoff curves**. 
 
-**SubHub** bridges that gap. It combines a pure functional calculation core with a fast local SQLite database and an intuitive visual dashboard to give cardholders complete foresight into upcoming monthly burn rates and exact payoff dates.
+**ZeroHero** bridges that gap. It combines a pure functional calculation core with a fast local SQLite database and an intuitive visual dashboard to give cardholders complete foresight into upcoming monthly burn rates and exact payoff dates.
 
 <br />
 
@@ -42,10 +42,10 @@ Most personal finance apps treat credit cards as simple debit accounts, failing 
 
 ```mermaid
 graph TD
-    subgraph Monorepo ["SubHub Decoupled Monorepo"]
+    subgraph Monorepo ["ZeroHero Decoupled Monorepo"]
         Web["apps/web (React 19 + Vite)"]
         API["apps/api (Hono + SQLite / Drizzle)"]
-        Shared["packages/shared (@subhub/shared)"]
+        Shared["packages/shared (@zerohero/shared)"]
     end
 
     Web -->|Import Types & Zod Schemas| Shared
@@ -82,7 +82,7 @@ graph TD
 ## 📂 Repository Layout
 
 ```text
-subhub/
+zerohero/
 ├── apps/
 │   ├── api/               # Hono REST API server (SQLite + Drizzle ORM)
 │   └── web/               # Vite React 19 single-page application
@@ -126,20 +126,20 @@ npm run typecheck
 
 Start the API backend:
 ```bash
-npm run dev --workspace=@subhub/api
+npm run dev --workspace=@zerohero/api
 ```
 
 Start the Web frontend:
 ```bash
-npm run dev --workspace=@subhub/web
+npm run dev --workspace=@zerohero/web
 ```
 
 <br />
 
 ## 🗺️ Engineering Roadmap
 
-The development of SubHub is tracked via **Wayfinder** on GitHub Issues:
-- Active Map: [GitHub Issue #1: SubHub Core Map](https://github.com/lorrandavi/subhub/issues/1)
+The development of ZeroHero is tracked via **Wayfinder** on GitHub Issues:
+- Active Map: [GitHub Issue #1: ZeroHero Core Map](https://github.com/lorrandavi/subhub/issues/1)
 - [x] `#4` **Research**: Drizzle ORM + SQLite vertical slice integration
 - [x] `#2` **Grilling**: Statement cutoff boundary & calendar rollover edge cases (ADR-0002)
 - [x] `#3` **Prototype**: Monorepo scaffolding & zero-friction shared contracts

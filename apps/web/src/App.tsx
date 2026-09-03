@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { CreditCard, StatementPeriod, Commitment } from '@subhub/shared';
+import type { CreditCard, StatementPeriod, Commitment } from '@zerohero/shared';
 
 export function App() {
   const [sampleCard] = useState<CreditCard>({
@@ -29,7 +29,7 @@ export function App() {
   return (
     <div style={{ fontFamily: 'system-ui, sans-serif', padding: '2rem', maxWidth: 800, margin: '0 auto' }}>
       <header style={{ marginBottom: '2rem' }}>
-        <h1 style={{ margin: 0, color: '#09090b' }}>SubHub</h1>
+        <h1 style={{ margin: 0, color: '#09090b' }}>ZeroHero</h1>
         <p style={{ color: '#71717a', margin: '0.25rem 0 0' }}>
           Personal Financial Command Center & Payoff Forecast
         </p>

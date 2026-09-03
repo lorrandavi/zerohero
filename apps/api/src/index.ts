@@ -1,6 +1,6 @@
 import { serve } from '@hono/node-server';
 import { Hono } from 'hono';
-import type { CreditCard, StatementPeriod, Commitment } from '@subhub/shared';
+import type { CreditCard, StatementPeriod, Commitment } from '@zerohero/shared';
 
 const app = new Hono();
 
@@ -46,7 +46,7 @@ app.get('/api/sample-contracts', (c) => {
 const port = Number(process.env.PORT) || 3000;
 
 if (process.env.NODE_ENV !== 'test') {
-  console.log(`SubHub API server running on port ${port}`);
+  console.log(`ZeroHero API server running on port ${port}`);
   serve({
     fetch: app.fetch,
     port,

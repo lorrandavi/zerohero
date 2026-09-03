@@ -1,5 +1,5 @@
 {
-  "name": "@subhub/web",
+  "name": "@zerohero/web",
   "version": "0.1.0",
   "type": "module",
   "scripts": {
@@ -8,7 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@subhub/shared": "*",
+    "@zerohero/shared": "*",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
