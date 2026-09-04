@@ -5,6 +5,9 @@ import {
   Button,
   StatValue,
   PeriodNavigator,
+  formatCycleLabel,
+  HeroPayoffChart,
+  BurnRateBreakdown,
   CreditCardIcon,
   SubscriptionIcon,
   InstallmentIcon,
@@ -17,17 +20,19 @@ import {
   AlertCircleIcon,
   TrendingDownIcon,
 } from './design-system';
-import { useHealth, useCards, useCommitments, useForecast } from './api';
+import { useHealth, useCards, useCommitments, useForecast, usePayoffCurve } from './api';
 
 export function App() {
   const [currentCycle, setCurrentCycle] = useState<string>('2026-10');
   const [selectedVariant, setSelectedVariant] = useState<string>('all');
+  const [showDiagnostics, setShowDiagnostics] = useState<boolean>(false);
 
   // Live API Hooks
   const health = useHealth();
   const cards = useCards();
   const commitments = useCommitments();
   const forecast = useForecast(currentCycle);
+  const payoffCurve = usePayoffCurve(currentCycle, 12);
 
   return (
     <div
@@ -191,20 +196,53 @@ export function App() {
             <div
               className="tabular-nums"
               style={{
-                fontSize: '2rem',
+                fontSize: '1.75rem',
                 fontWeight: 700,
                 color: 'var(--zh-accent-emerald)',
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }}
             >
-              June 2027
+              {payoffCurve.data?.payoffDate
+                ? formatCycleLabel(payoffCurve.data.payoffDate)
+                : payoffCurve.data?.totalInitialDebtInCents === 0
+                ? 'Debt Free!'
+                : 'June 2027'}
             </div>
             <span style={{ fontSize: '0.8125rem', color: 'var(--zh-text-muted)', marginTop: '4px' }}>
               Projected payoff date at current rate
             </span>
           </div>
         </Card>
+      </section>
+
+      {/* Hero Visualization & Breakdown Section */}
+      <section
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
+          gap: '1.5rem',
+          marginBottom: '2.5rem',
+          alignItems: 'start',
+        }}
+      >
+        {/* Custom Responsive SVG Hero Payoff Curve Chart */}
+        <HeroPayoffChart
+          data={payoffCurve.data}
+          selectedCycle={currentCycle}
+          onSelectCycle={setCurrentCycle}
+          isLoading={payoffCurve.isLoading}
+        />
+
+        {/* Categorized Burn Rate Breakdown & Cycle Ledger */}
+        <BurnRateBreakdown
+          forecast={forecast.data}
+          selectedCycle={currentCycle}
+          isLoading={forecast.isLoading}
+        />
       </section>
 
       {/* Design System SST & Component Matrix Showcase */}

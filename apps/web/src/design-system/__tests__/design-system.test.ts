@@ -61,3 +61,11 @@ describe('Typed API client contracts', () => {
     expect(typeof api.getPayoffCurve).toBe('function');
   });
 });
+
+describe('Design System Organism exports', () => {
+  it('exports HeroPayoffChart and BurnRateBreakdown', async () => {
+    const ds = await import('../index');
+    expect(typeof ds.HeroPayoffChart).toBe('function');
+    expect(typeof ds.BurnRateBreakdown).toBe('function');
+  });
+});
