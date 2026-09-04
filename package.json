@@ -10,7 +10,10 @@
   "scripts": {
     "test": "npm run test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "build": "npm run build --workspaces --if-present"
+    "build": "npm run build --workspaces --if-present",
+    "dev:api": "npm --workspace=@zerohero/api run dev",
+    "dev:web": "npm --workspace=@zerohero/web run dev",
+    "dev": "npm run dev --workspaces"
   },
   "devDependencies": {
     "typescript": "^5.7.3",
