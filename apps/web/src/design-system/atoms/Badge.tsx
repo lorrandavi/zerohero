@@ -56,8 +56,8 @@ export function Badge({
   const baseStyle: React.CSSProperties = {
     display: 'inline-flex',
     alignItems: 'center',
-    gap: '5px',
-    padding: size === 'sm' ? '2px 7px' : '3px 10px',
+    gap: '6px',
+    padding: size === 'sm' ? '3px 9px' : '4px 12px',
     fontSize: size === 'sm' ? '0.75rem' : '0.8125rem',
     fontWeight: 500,
     borderRadius: 'var(--zh-radius-full)',

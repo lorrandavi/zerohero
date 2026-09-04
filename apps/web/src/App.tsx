@@ -85,8 +85,8 @@ export function App() {
         minHeight: '100vh',
         backgroundColor: 'var(--zh-bg-primary)',
         color: 'var(--zh-text-primary)',
-        padding: '2rem 1.5rem',
-        maxWidth: '1200px',
+        padding: '2.5rem 2rem',
+        maxWidth: '1440px',
         margin: '0 auto',
       }}
     >
@@ -103,27 +103,30 @@ export function App() {
           marginBottom: '2.5rem',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <div
             style={{
-              width: '42px',
-              height: '42px',
+              width: '50px',
+              height: '50px',
+              minWidth: '50px',
+              minHeight: '50px',
+              flexShrink: 0,
               borderRadius: 'var(--zh-radius-lg)',
               background: 'linear-gradient(135deg, #06b6d4 0%, #10b981 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              boxShadow: '0 0 20px rgba(6, 182, 212, 0.35)',
+              boxShadow: '0 0 24px rgba(6, 182, 212, 0.4)',
             }}
           >
-            <TrendingDownIcon size={24} color="#090a0f" />
+            <TrendingDownIcon size={28} color="#090a0f" />
           </div>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <h1
                 style={{
                   margin: 0,
-                  fontSize: '1.625rem',
+                  fontSize: '1.875rem',
                   fontWeight: 700,
                   letterSpacing: '-0.03em',
                   background: 'linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%)',
@@ -193,7 +196,7 @@ export function App() {
       </header>
 
       {/* KPI Cards Grid */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.25rem', marginBottom: '2.5rem' }}>
+      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem', marginBottom: '2.5rem' }}>
         <Card variant="glass" glow="cyan" padding="lg">
           <StatValue
             label="Cycle Burn Rate"
@@ -241,10 +244,10 @@ export function App() {
             <div
               className="tabular-nums"
               style={{
-                fontSize: '1.75rem',
+                fontSize: '1.45rem',
                 fontWeight: 700,
                 color: 'var(--zh-accent-emerald)',
-                lineHeight: 1.1,
+                lineHeight: 1.2,
                 letterSpacing: '-0.02em',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -268,8 +271,8 @@ export function App() {
       <section
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(420px, 1fr))',
-          gap: '1.5rem',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))',
+          gap: '1.75rem',
           marginBottom: '2.5rem',
           alignItems: 'start',
         }}

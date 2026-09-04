@@ -21,9 +21,9 @@ export function Button({
   ...props
 }: ButtonProps) {
   const sizeMap: Record<ButtonSize, { padding: string; fontSize: string; height: string }> = {
-    sm: { padding: '0 10px', fontSize: '0.8125rem', height: '32px' },
-    md: { padding: '0 16px', fontSize: '0.875rem', height: '40px' },
-    lg: { padding: '0 22px', fontSize: '1rem', height: '48px' },
+    sm: { padding: '0 12px', fontSize: '0.8125rem', height: '38px' },
+    md: { padding: '0 20px', fontSize: '0.875rem', height: '48px' },
+    lg: { padding: '0 26px', fontSize: '1rem', height: '58px' },
   };
 
   const currentSize = sizeMap[size];
@@ -56,7 +56,7 @@ export function Button({
     display: 'inline-flex',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: '8px',
+    gap: '10px',
     height: currentSize.height,
     padding: currentSize.padding,
     fontSize: currentSize.fontSize,

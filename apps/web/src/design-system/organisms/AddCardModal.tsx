@@ -135,7 +135,7 @@ export function AddCardModal({ isOpen, onClose, onSuccess }: AddCardModalProps) 
           borderRadius: 'var(--zh-radius-xl)',
           boxShadow: 'var(--zh-shadow-card)',
           width: '100%',
-          maxWidth: '480px',
+          maxWidth: '560px',
           overflow: 'hidden',
         }}
       >

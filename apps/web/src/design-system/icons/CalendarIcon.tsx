@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IconProps } from './CreditCardIcon';
 
-export function CalendarIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function CalendarIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -12,6 +12,7 @@ export function CalendarIcon({ size = 20, color = 'currentColor', ...props }: Ic
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IconProps } from './CreditCardIcon';
 
-export function PlusIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function PlusIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -12,6 +12,7 @@ export function PlusIcon({ size = 20, color = 'currentColor', ...props }: IconPr
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <line x1="12" y1="5" x2="12" y2="19" />
@@ -20,7 +21,7 @@ export function PlusIcon({ size = 20, color = 'currentColor', ...props }: IconPr
   );
 }
 
-export function CheckIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function CheckIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -31,6 +32,7 @@ export function CheckIcon({ size = 20, color = 'currentColor', ...props }: IconP
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="20 6 9 17 4 12" />
@@ -38,7 +40,7 @@ export function CheckIcon({ size = 20, color = 'currentColor', ...props }: IconP
   );
 }
 
-export function TrashIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function TrashIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -49,6 +51,7 @@ export function TrashIcon({ size = 20, color = 'currentColor', ...props }: IconP
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="3 6 5 6 21 6" />
@@ -57,7 +60,7 @@ export function TrashIcon({ size = 20, color = 'currentColor', ...props }: IconP
   );
 }
 
-export function AlertCircleIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function AlertCircleIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -68,6 +71,7 @@ export function AlertCircleIcon({ size = 20, color = 'currentColor', ...props }:
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <circle cx="12" cy="12" r="10" />
@@ -77,7 +81,7 @@ export function AlertCircleIcon({ size = 20, color = 'currentColor', ...props }:
   );
 }
 
-export function TrendingDownIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function TrendingDownIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -88,6 +92,7 @@ export function TrendingDownIcon({ size = 20, color = 'currentColor', ...props }
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="23 18 13.5 8.5 8.5 13.5 1 6" />
@@ -96,7 +101,7 @@ export function TrendingDownIcon({ size = 20, color = 'currentColor', ...props }
   );
 }
 
-export function XIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function XIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -107,6 +112,7 @@ export function XIcon({ size = 20, color = 'currentColor', ...props }: IconProps
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <line x1="18" y1="6" x2="6" y2="18" />

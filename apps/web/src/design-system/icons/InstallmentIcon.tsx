@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IconProps } from './CreditCardIcon';
 
-export function InstallmentIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function InstallmentIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -12,6 +12,7 @@ export function InstallmentIcon({ size = 20, color = 'currentColor', ...props }:
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polygon points="12 2 2 7 12 12 22 7 12 2" />

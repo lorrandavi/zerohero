@@ -40,21 +40,21 @@
   --zh-chart-sub-bar: #6366f1;
   --zh-chart-inst-bar: #f43f5e;
 
-  /* Radii */
-  --zh-radius-xs: 2px;
-  --zh-radius-sm: 4px;
-  --zh-radius-md: 8px;
-  --zh-radius-lg: 12px;
-  --zh-radius-xl: 16px;
+  /* Radii (+20% scaled) */
+  --zh-radius-xs: 2.5px;
+  --zh-radius-sm: 5px;
+  --zh-radius-md: 10px;
+  --zh-radius-lg: 14px;
+  --zh-radius-xl: 19px;
   --zh-radius-full: 9999px;
 
-  /* Spacing */
-  --zh-space-xs: 4px;
-  --zh-space-sm: 8px;
-  --zh-space-md: 16px;
-  --zh-space-lg: 24px;
-  --zh-space-xl: 32px;
-  --zh-space-2xl: 48px;
+  /* Spacing (+20% scaled) */
+  --zh-space-xs: 5px;
+  --zh-space-sm: 10px;
+  --zh-space-md: 19px;
+  --zh-space-lg: 29px;
+  --zh-space-xl: 38px;
+  --zh-space-2xl: 58px;
 
   /* Typography */
   --zh-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -69,6 +69,11 @@
 /* Global Reset & Base */
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+html {
+  /* High-visibility +20% scaling baseline for typography and all rem units (16px * 1.2 = 19.2px) */
+  font-size: 120%;
 }
 
 body {

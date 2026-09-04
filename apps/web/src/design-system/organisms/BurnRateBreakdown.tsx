@@ -48,7 +48,7 @@ export function BurnRateBreakdown({
         backgroundColor: tokens.colors.surfaceCard,
         borderRadius: tokens.radii.lg,
         border: `1px solid ${tokens.colors.borderSubtle}`,
-        padding: '1.5rem',
+        padding: '1.75rem',
         boxShadow: tokens.shadows.card,
         position: 'relative',
         ...style,
@@ -157,7 +157,7 @@ export function BurnRateBreakdown({
         <div
           style={{
             display: 'flex',
-            height: '10px',
+            height: '12px',
             backgroundColor: tokens.colors.surfaceElevated,
             borderRadius: tokens.radii.full,
             overflow: 'hidden',
@@ -198,7 +198,7 @@ export function BurnRateBreakdown({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '10px 14px',
+          padding: '12px 16px',
           backgroundColor: tokens.colors.surfaceElevated,
           borderRadius: tokens.radii.md,
           border: `1px solid ${tokens.colors.borderSubtle}`,
@@ -206,8 +206,8 @@ export function BurnRateBreakdown({
           fontSize: '0.8125rem',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <CalendarIcon size={16} color={tokens.colors.accentCyan} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <CalendarIcon size={19} color={tokens.colors.accentCyan} />
           <span style={{ color: tokens.colors.textSecondary }}>Cycle Progress:</span>
           <strong style={{ color: tokens.colors.textPrimary }}>
             {isCurrentMonth ? `Day ${currentDay} of ${daysInMonth}` : `${daysInMonth} Days in Cycle`}

@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IconProps } from './CreditCardIcon';
 
-export function ChevronLeftIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function ChevronLeftIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -12,6 +12,7 @@ export function ChevronLeftIcon({ size = 20, color = 'currentColor', ...props }:
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="15 18 9 12 15 6" />
@@ -19,7 +20,7 @@ export function ChevronLeftIcon({ size = 20, color = 'currentColor', ...props }:
   );
 }
 
-export function ChevronRightIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function ChevronRightIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -30,6 +31,7 @@ export function ChevronRightIcon({ size = 20, color = 'currentColor', ...props }
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="9 18 15 12 9 6" />

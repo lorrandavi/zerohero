@@ -50,9 +50,9 @@ export function PeriodNavigator({
       style={{
         display: 'inline-flex',
         alignItems: 'center',
-        gap: '12px',
+        gap: '14px',
         backgroundColor: 'var(--zh-surface-card)',
-        padding: '6px 12px',
+        padding: '8px 16px',
         borderRadius: 'var(--zh-radius-lg)',
         border: '1px solid var(--zh-border-subtle)',
       }}
@@ -66,17 +66,17 @@ export function PeriodNavigator({
           border: 'none',
           color: 'var(--zh-text-secondary)',
           cursor: 'pointer',
-          padding: '4px',
+          padding: '6px',
           borderRadius: 'var(--zh-radius-sm)',
           display: 'flex',
           alignItems: 'center',
         }}
       >
-        <ChevronLeftIcon size={18} />
+        <ChevronLeftIcon size={22} />
       </button>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <CalendarIcon size={16} color="var(--zh-accent-cyan)" />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <CalendarIcon size={20} color="var(--zh-accent-cyan)" />
         <span
           className="tabular-nums"
           style={{
@@ -103,13 +103,13 @@ export function PeriodNavigator({
           border: 'none',
           color: 'var(--zh-text-secondary)',
           cursor: 'pointer',
-          padding: '4px',
+          padding: '6px',
           borderRadius: 'var(--zh-radius-sm)',
           display: 'flex',
           alignItems: 'center',
         }}
       >
-        <ChevronRightIcon size={18} />
+        <ChevronRightIcon size={22} />
       </button>
     </div>
   );

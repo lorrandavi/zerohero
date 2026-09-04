@@ -210,7 +210,7 @@ export function AddCommitmentModal({
           borderRadius: 'var(--zh-radius-xl)',
           boxShadow: 'var(--zh-shadow-card)',
           width: '100%',
-          maxWidth: '520px',
+          maxWidth: '620px',
           maxHeight: '90vh',
           overflowY: 'auto',
         }}

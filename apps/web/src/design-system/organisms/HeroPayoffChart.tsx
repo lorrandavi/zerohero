@@ -29,7 +29,7 @@ export function HeroPayoffChart({
   selectedCycle,
   onSelectCycle,
   isLoading = false,
-  height = 340,
+  height = 380,
   className,
   style,
 }: HeroPayoffChartProps) {
@@ -63,15 +63,16 @@ export function HeroPayoffChart({
       if (!svgRef.current || scaled.length === 0) return;
       const rect = svgRef.current.getBoundingClientRect();
       const clientX = e.clientX - rect.left;
-      const normalizedX = (clientX / rect.width) * bounds.width;
+      const svgX = (clientX / rect.width) * bounds.width;
 
-      // Find closest scaled point along x-axis
+      // Find closest data point along X axis
       let closestIdx = 0;
-      let minDiff = Infinity;
-      for (let i = 0; i < scaled.length; i++) {
-        const diff = Math.abs(scaled[i].x - normalizedX);
-        if (diff < minDiff) {
-          minDiff = diff;
+      let minDistance = Math.abs(scaled[0].x - svgX);
+
+      for (let i = 1; i < scaled.length; i++) {
+        const dist = Math.abs(scaled[i].x - svgX);
+        if (dist < minDistance) {
+          minDistance = dist;
           closestIdx = i;
         }
       }
@@ -104,38 +105,41 @@ export function HeroPayoffChart({
         backgroundColor: tokens.colors.surfaceCard,
         borderRadius: tokens.radii.lg,
         border: `1px solid ${tokens.colors.borderSubtle}`,
-        padding: '1.5rem',
+        padding: '1.75rem',
         boxShadow: tokens.shadows.card,
         overflow: 'hidden',
         ...style,
       }}
     >
-      {/* Chart Header */}
+      {/* Header & Title */}
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'flex-start',
-          marginBottom: '1rem',
+          marginBottom: '1.5rem',
           flexWrap: 'wrap',
           gap: '12px',
         }}
       >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <span
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '28px',
-                height: '28px',
+                width: '36px',
+                height: '36px',
+                minWidth: '36px',
+                minHeight: '36px',
+                flexShrink: 0,
                 borderRadius: tokens.radii.md,
                 backgroundColor: tokens.colors.accentCyanGlow,
                 color: tokens.colors.accentCyan,
               }}
             >
-              <TrendingDownIcon size={16} color={tokens.colors.accentCyan} />
+              <TrendingDownIcon size={20} color={tokens.colors.accentCyan} />
             </span>
             <h3
               style={{
@@ -151,7 +155,7 @@ export function HeroPayoffChart({
           </div>
           <p
             style={{
-              margin: '4px 0 0',
+              margin: '6px 0 0',
               fontSize: '0.8125rem',
               color: tokens.colors.textSecondary,
             }}
@@ -166,17 +170,19 @@ export function HeroPayoffChart({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-              padding: '6px 12px',
+              gap: '8px',
+              padding: '6px 14px',
               backgroundColor: tokens.colors.accentEmeraldGlow,
               border: `1px solid ${tokens.colors.accentEmerald}`,
               borderRadius: tokens.radii.full,
               fontSize: '0.8125rem',
               color: tokens.colors.accentEmerald,
               fontWeight: tokens.typography.weights.medium,
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
             }}
           >
-            <CheckIcon size={14} color={tokens.colors.accentEmerald} />
+            <CheckIcon size={16} color={tokens.colors.accentEmerald} />
             <span>
               Zero Debt Target: <strong>{formatCycleLabel(milestonePoint.point.month)}</strong>
             </span>
@@ -277,7 +283,7 @@ export function HeroPayoffChart({
                     y={y + 4}
                     textAnchor="end"
                     fill={tokens.colors.textMuted}
-                    fontSize="11"
+                    fontSize="13"
                     fontFamily={tokens.typography.fontFamilySans}
                   >
                     {formatCentsToCurrency(cents).split('.')[0]}
@@ -301,7 +307,7 @@ export function HeroPayoffChart({
                 d={linePath}
                 fill="none"
                 stroke={tokens.colors.chart.curveLine}
-                strokeWidth="3"
+                strokeWidth="3.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 filter={`url(#${glowFilterId})`}
@@ -318,7 +324,7 @@ export function HeroPayoffChart({
                   x2={milestonePoint.x}
                   y2={baselineY}
                   stroke={tokens.colors.chart.milestonePin}
-                  strokeWidth="1.5"
+                  strokeWidth="1.8"
                   strokeDasharray="4 4"
                   opacity="0.75"
                 />
@@ -326,10 +332,10 @@ export function HeroPayoffChart({
                 <circle
                   cx={milestonePoint.x}
                   cy={milestonePoint.y}
-                  r="7"
+                  r="8"
                   fill={tokens.colors.chart.milestonePin}
                   stroke={tokens.colors.bgPrimary}
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                   style={{
                     filter: 'drop-shadow(0 0 8px rgba(16, 185, 129, 0.6))',
                   }}
@@ -337,25 +343,25 @@ export function HeroPayoffChart({
                 <circle
                   cx={milestonePoint.x}
                   cy={milestonePoint.y}
-                  r="3"
+                  r="3.5"
                   fill="#ffffff"
                 />
                 {/* Milestone Tag Flag */}
-                <g transform={`translate(${milestonePoint.x}, ${bounds.paddingTop - 12})`}>
+                <g transform={`translate(${milestonePoint.x}, ${bounds.paddingTop - 14})`}>
                   <rect
-                    x="-44"
-                    y="-12"
-                    width="88"
-                    height="18"
-                    rx="9"
+                    x="-48"
+                    y="-14"
+                    width="96"
+                    height="22"
+                    rx="11"
                     fill={tokens.colors.accentEmerald}
                   />
                   <text
                     x="0"
-                    y="1"
+                    y="1.5"
                     textAnchor="middle"
                     fill="#090a0f"
-                    fontSize="9.5"
+                    fontSize="11"
                     fontWeight="700"
                     fontFamily={tokens.typography.fontFamilySans}
                   >
@@ -367,30 +373,30 @@ export function HeroPayoffChart({
 
             {/* Selected Cycle Indicator (if not currently hovered) */}
             {selectedPoint && hoveredIndex === null && (
-              <g>
+              <g style={{ pointerEvents: 'none' }}>
                 <line
                   x1={selectedPoint.x}
                   y1={bounds.paddingTop}
                   x2={selectedPoint.x}
                   y2={baselineY}
                   stroke={tokens.colors.accentCyan}
-                  strokeWidth="1.5"
-                  strokeDasharray="2 2"
+                  strokeWidth="1.8"
+                  strokeDasharray="3 3"
                   opacity="0.8"
                 />
                 <circle
                   cx={selectedPoint.x}
                   cy={selectedPoint.y}
-                  r="5"
+                  r="8"
                   fill={tokens.colors.accentCyan}
                   stroke={tokens.colors.bgPrimary}
-                  strokeWidth="2"
+                  strokeWidth="2.5"
                 />
               </g>
             )}
 
             {/* Hover Scrubber Line & Active Dot */}
-            {activePoint && (
+            {activePoint && hoveredIndex !== null && (
               <g style={{ pointerEvents: 'none' }}>
                 <line
                   x1={activePoint.x}
@@ -398,13 +404,13 @@ export function HeroPayoffChart({
                   x2={activePoint.x}
                   y2={baselineY}
                   stroke={tokens.colors.chart.scrubberLine}
-                  strokeWidth="1.5"
+                  strokeWidth="2"
                   opacity="0.9"
                 />
                 <circle
                   cx={activePoint.x}
                   cy={activePoint.y}
-                  r="8"
+                  r="9"
                   fill={tokens.colors.accentCyan}
                   stroke={tokens.colors.textPrimary}
                   strokeWidth="2.5"
@@ -415,7 +421,7 @@ export function HeroPayoffChart({
                 <circle
                   cx={activePoint.x}
                   cy={activePoint.y}
-                  r="3.5"
+                  r="4"
                   fill={tokens.colors.bgPrimary}
                 />
               </g>
@@ -441,11 +447,11 @@ export function HeroPayoffChart({
                 <text
                   key={sp.point.month}
                   x={sp.x}
-                  y={baselineY + 22}
+                  y={baselineY + 24}
                   textAnchor="middle"
                   fill={isSelected ? tokens.colors.accentCyan : tokens.colors.textSecondary}
                   fontWeight={isSelected ? '600' : '400'}
-                  fontSize="11"
+                  fontSize="13"
                   fontFamily={tokens.typography.fontFamilySans}
                   style={{ cursor: 'pointer' }}
                 >

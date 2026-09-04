@@ -48,21 +48,21 @@ export const colors = {
 } as const;
 
 export const radii = {
-  xs: '2px',
-  sm: '4px',
-  md: '8px',
-  lg: '12px',
-  xl: '16px',
+  xs: '2.5px',
+  sm: '5px',
+  md: '10px',
+  lg: '14px',
+  xl: '19px',
   full: '9999px',
 } as const;
 
 export const spacing = {
-  xs: '4px',
-  sm: '8px',
-  md: '16px',
-  lg: '24px',
-  xl: '32px',
-  '2xl': '48px',
+  xs: '5px',
+  sm: '10px',
+  md: '19px',
+  lg: '29px',
+  xl: '38px',
+  '2xl': '58px',
 } as const;
 
 export const typography = {

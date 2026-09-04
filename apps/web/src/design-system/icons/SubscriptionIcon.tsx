@@ -1,7 +1,7 @@
 import React from 'react';
 import type { IconProps } from './CreditCardIcon';
 
-export function SubscriptionIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function SubscriptionIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -12,6 +12,7 @@ export function SubscriptionIcon({ size = 20, color = 'currentColor', ...props }
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <polyline points="23 4 23 10 17 10" />

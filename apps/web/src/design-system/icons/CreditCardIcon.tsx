@@ -5,7 +5,7 @@ export interface IconProps extends React.SVGProps<SVGSVGElement> {
   color?: string;
 }
 
-export function CreditCardIcon({ size = 20, color = 'currentColor', ...props }: IconProps) {
+export function CreditCardIcon({ size = 24, color = 'currentColor', style, ...props }: IconProps) {
   return (
     <svg
       width={size}
@@ -16,6 +16,7 @@ export function CreditCardIcon({ size = 20, color = 'currentColor', ...props }: 
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      style={{ flexShrink: 0, ...style }}
       {...props}
     >
       <rect x="1" y="4" width="22" height="16" rx="3" ry="3" />

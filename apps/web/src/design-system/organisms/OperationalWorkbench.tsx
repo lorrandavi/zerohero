@@ -522,13 +522,13 @@ export function OperationalWorkbench({
                           <div style={{ textAlign: 'right' }}>
                             <strong
                               className="tabular-nums"
-                              style={{ fontSize: '0.9375rem', color: 'var(--zh-accent-rose)' }}
+                              style={{ fontSize: '0.9375rem', color: 'var(--zh-accent-rose)', whiteSpace: 'nowrap' }}
                             >
                               ${(monthlyCents / 100).toFixed(2)} / mo
                             </strong>
                             <span
                               className="tabular-nums"
-                              style={{ display: 'block', fontSize: '0.75rem', color: 'var(--zh-text-muted)' }}
+                              style={{ display: 'block', fontSize: '0.75rem', color: 'var(--zh-text-muted)', whiteSpace: 'nowrap' }}
                             >
                               ${(inst.totalAmountInCents / 100).toFixed(2)} total
                             </span>
@@ -644,7 +644,7 @@ export function OperationalWorkbench({
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                       <strong
                         className="tabular-nums"
-                        style={{ fontSize: '0.9375rem', color: 'var(--zh-accent-indigo)' }}
+                        style={{ fontSize: '0.9375rem', color: 'var(--zh-accent-indigo)', whiteSpace: 'nowrap' }}
                       >
                         ${(sub.amountInCents / 100).toFixed(2)} / mo
                       </strong>

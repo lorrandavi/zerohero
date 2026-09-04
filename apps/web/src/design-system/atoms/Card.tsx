@@ -18,9 +18,9 @@ export function Card({
 }: CardProps) {
   const paddingMap = {
     none: '0',
-    sm: '12px',
-    md: '20px',
-    lg: '28px',
+    sm: '0.9rem',
+    md: '1.5rem',
+    lg: '2.1rem',
   };
 
   const bgMap = {
