@@ -116,5 +116,23 @@ export function createCommitmentsRouter(dbInstance: AppDatabase['db'] = defaultD
     return c.json(item, 200);
   });
 
+  // DELETE /api/commitments/:id
+  router.delete('/:id', (c) => {
+    const id = c.req.param('id');
+    const existing = dbInstance
+      .select()
+      .from(commitments)
+      .where(eq(commitments.id, id))
+      .get();
+
+    if (!existing) {
+      return c.json({ error: 'Commitment not found' }, 404);
+    }
+
+    dbInstance.delete(commitments).where(eq(commitments.id, id)).run();
+
+    return c.json({ success: true }, 200);
+  });
+
   return router;
 }

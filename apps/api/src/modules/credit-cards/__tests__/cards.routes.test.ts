@@ -114,4 +114,32 @@ describe('Credit Cards Route Handlers (/api/cards)', () => {
       expect(data.error).toBe('Credit card not found');
     });
   });
+
+  describe('DELETE /api/cards/:id', () => {
+    it('deletes an existing card and returns 200', async () => {
+      const createRes = await app.request('/api/cards', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: 'To Delete', closingDay: 10, dueDay: 20 }),
+      });
+      const created = await createRes.json();
+
+      const deleteRes = await app.request(`/api/cards/${created.id}`, {
+        method: 'DELETE',
+      });
+      expect(deleteRes.status).toBe(200);
+      const body = await deleteRes.json();
+      expect(body.success).toBe(true);
+
+      const checkRes = await app.request(`/api/cards/${created.id}`);
+      expect(checkRes.status).toBe(404);
+    });
+
+    it('returns 404 when deleting a non-existent card', async () => {
+      const deleteRes = await app.request('/api/cards/00000000-0000-0000-0000-000000000000', {
+        method: 'DELETE',
+      });
+      expect(deleteRes.status).toBe(404);
+    });
+  });
 });

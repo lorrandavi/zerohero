@@ -232,4 +232,38 @@ describe('Commitments Route Handlers (/api/commitments)', () => {
       expect(data.error).toBe('Commitment not found');
     });
   });
+
+  describe('DELETE /api/commitments/:id', () => {
+    it('deletes an existing commitment and returns 200', async () => {
+      const createRes = await app.request('/api/commitments', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'subscription',
+          cardId: sampleCardId,
+          name: 'To Delete Subscription',
+          amountInCents: 1500,
+          billingDay: 10,
+        }),
+      });
+      const created = await createRes.json();
+
+      const deleteRes = await app.request(`/api/commitments/${created.id}`, {
+        method: 'DELETE',
+      });
+      expect(deleteRes.status).toBe(200);
+      const body = await deleteRes.json();
+      expect(body.success).toBe(true);
+
+      const checkRes = await app.request(`/api/commitments/${created.id}`);
+      expect(checkRes.status).toBe(404);
+    });
+
+    it('returns 404 when deleting a non-existent commitment', async () => {
+      const deleteRes = await app.request('/api/commitments/00000000-0000-0000-0000-000000000000', {
+        method: 'DELETE',
+      });
+      expect(deleteRes.status).toBe(404);
+    });
+  });
 });

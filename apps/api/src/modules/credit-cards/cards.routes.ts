@@ -81,5 +81,23 @@ export function createCardsRouter(dbInstance: AppDatabase['db'] = defaultDb) {
     return c.json(card, 200);
   });
 
+  // DELETE /api/cards/:id
+  router.delete('/:id', (c) => {
+    const id = c.req.param('id');
+    const existing = dbInstance
+      .select()
+      .from(creditCards)
+      .where(eq(creditCards.id, id))
+      .get();
+
+    if (!existing) {
+      return c.json({ error: 'Credit card not found' }, 404);
+    }
+
+    dbInstance.delete(creditCards).where(eq(creditCards.id, id)).run();
+
+    return c.json({ success: true }, 200);
+  });
+
   return router;
 }
